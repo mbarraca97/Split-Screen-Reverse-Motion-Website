@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import MobileHeader from './MobileHeader';
 import MobileFooter from './MobileFooter';
 import ImageWithFallback from './ImageWithFallback';
+import useScrollToTop from '../../hooks/useScrollToTop';
 
 const MobileProjectTemplate = () => {
   const navigate = useNavigate();
@@ -27,6 +28,9 @@ const MobileProjectTemplate = () => {
     threshold: 0.3,
     triggerOnce: true
   });
+
+  // Scroll to top on mount and when projectId changes
+  useScrollToTop([projectId]);
 
   // Enable smooth scroll
   useEffect(() => {
@@ -57,10 +61,10 @@ const MobileProjectTemplate = () => {
         gallery: ['/project1-1.png', '/project1-2.png', '/project1-3.png'],
         description: {
           title: 'Projeto Villa Marina',
-          text: 'Uma abordagem contemporânea à arquitetura residencial, combinando funcionalidade e estética moderna. Este projeto exemplifica a nossa filosofia de design centrada na qualidade de vida e sustentabilidade ambiental.'
+          text: 'Uma abordagem contemporânea à arquitetura residencial, combinando funcionalidade e estetica moderna. Este projeto exemplifica a nossa filosofia de design centrada na qualidade de vida e sustentabilidade ambiental.'
         },
         details: 'Construção com materiais de alta qualidade, sistema de climatização eficiente, iluminação LED integrada e acabamentos premium em toda a residência.',
-        fullDescription: 'Este projeto representa uma evolução natural dos nossos princípios de design, integrando perfeitamente a funcionalidade contemporânea com a estética atemporal. Cada elemento foi cuidadosamente considerado para criar um ambiente harmonioso que reflete o estilo de vida dos proprietários.'
+        fullDescription: 'Este projeto representa uma evolução natural dos nossos princípios de design, integrando perfeitamente a funcionalidade contemporânea com a estetica atemporal. Cada elemento foi cuidadosamente considerado para criar um ambiente harmonioso que reflete o estilo de vida dos proprietários.'
       },
       'urban-loft': {
         id: 2,
@@ -80,7 +84,7 @@ const MobileProjectTemplate = () => {
           text: 'Um espaço urbano transformado num lar moderno e funcional, onde cada metro quadrado foi optimizado para criar uma experiência de vida única no coração da cidade.'
         },
         details: 'Design open-space com zonas bem definidas, materiais industriais refinados, sistemas de armazenamento inteligentes e iluminação ambiente personalizada.',
-        fullDescription: 'A transformação deste loft urbano demonstra como é possível criar um ambiente acolhedor e sofisticado num espaço industrial. A nossa abordagem focou-se na maximização da funcionalidade sem comprometer o conforto.'
+        fullDescription: 'A transformação deste loft urbano demonstra como e possível criar um ambiente acolhedor e sofisticado num espaço industrial. A nossa abordagem focou-se na maximização da funcionalidade sem comprometer o conforto.'
       },
       'classic-apartment': {
         id: 3,
@@ -315,7 +319,7 @@ const MobileProjectTemplate = () => {
               viewport={{ once: true }}
             >
               <h3 className="font-josefin-sans text-lg uppercase text-[#413C36] mb-4 font-normal tracking-wide">
-                Detalhes Técnicos
+                Detalhes Tecnicos
               </h3>
               <p className="font-josefin-sans text-base text-[#413C36] leading-relaxed font-light">
                 {project.details}

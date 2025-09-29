@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import MobileHeader from '../components/mobile/MobileHeader';
 import MobileFooter from '../components/mobile/MobileFooter';
 import ImageWithFallback from '../components/mobile/ImageWithFallback';
+import useScrollToTop from '../hooks/useScrollToTop';
 
 const MobileLivingCollection = () => {
   const navigate = useNavigate();
@@ -22,6 +23,9 @@ const MobileLivingCollection = () => {
     threshold: 0.2,
     triggerOnce: true
   });
+
+  // Scroll to top on mount
+  useScrollToTop();
 
   // Enable smooth scroll
   useEffect(() => {

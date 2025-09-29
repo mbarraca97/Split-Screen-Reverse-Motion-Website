@@ -26,11 +26,11 @@ const ProjectTemplate = ({ project }) => {
     },
     description: {
       title: 'Projeto Vivenda C E25',
-      text: 'Uma abordagem contemporânea à arquitetura residencial, combinando funcionalidade e estética moderna. Este projeto exemplifica a nossa filosofia de design centrada na qualidade de vida e sustentabilidade ambiental.'
+      text: 'Uma abordagem contemporânea à arquitetura residencial, combinando funcionalidade e estetica moderna. Este projeto exemplifica a nossa filosofia de design centrada na qualidade de vida e sustentabilidade ambiental.'
     },
     gallery: ['/project1-1.png', '/project1-2.png', '/project1-3.png'],
     details: {
-      label: 'Detalhes Técnicos',
+      label: 'Detalhes Tecnicos',
       text: 'Construção com materiais de alta qualidade, sistema de climatização eficiente, iluminação LED integrada e acabamentos premium em toda a residência.'
     }
   };
@@ -148,7 +148,7 @@ const ProjectTemplate = ({ project }) => {
         <div className="w-1/2 pr-8">
           {/* Text */}
           <div className="font-josefin-sans text-[16px] w-[500px] mb-8" style={{ color: '#413C36' }}>
-            Este projeto representa uma evolução natural dos nossos princípios de design, integrando perfeitamente a funcionalidade contemporânea com a estética atemporal. Cada elemento foi cuidadosamente considerado para criar um ambiente harmonioso.
+            Este projeto representa uma evolução natural dos nossos princípios de design, integrando perfeitamente a funcionalidade contemporânea com a estetica atemporal. Cada elemento foi cuidadosamente considerado para criar um ambiente harmonioso.
           </div>
           
           {/* Two pairs of title/label stacked vertically */}

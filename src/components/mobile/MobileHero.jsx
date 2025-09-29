@@ -24,9 +24,6 @@ const MobileHero = () => {
           <h1 className="font-josefin-sans uppercase text-6xl md:text-7xl text-white mb-4 leading-tight">
             Causa
           </h1>
-          <h2 className="font-josefin-sans uppercase text-6xl md:text-7xl text-white mb-8 font-light leading-tight">
-            Efeito
-          </h2>
         </motion.div>
 
         <motion.div

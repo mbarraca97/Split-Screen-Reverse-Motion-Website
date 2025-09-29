@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const MobileHeader = ({ isMenuOpen, onToggleMenu, onNavigateToSection }) => {
   const [language, setLanguage] = useState('PT');
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const menuItems = [
     { id: 'hero', label: 'Início' },
@@ -17,20 +20,61 @@ const MobileHeader = ({ isMenuOpen, onToggleMenu, onNavigateToSection }) => {
     setLanguage(prev => prev === 'PT' ? 'EN' : 'PT');
   };
 
+  const handleNavigation = (sectionId) => {
+    // Close the menu first
+    onToggleMenu();
+    
+    // Check if we're on the homepage
+    const isHomepage = location.pathname === '/';
+    
+    if (sectionId === 'hero' || sectionId === 'home') {
+      // Always navigate to homepage for hero/home
+      navigate('/');
+      return;
+    }
+    
+    if (isHomepage) {
+      // If we're on homepage, just scroll to section
+      if (onNavigateToSection) {
+        onNavigateToSection(sectionId);
+      } else {
+        // Fallback: try to scroll to element directly
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    } else {
+      // If we're on another page, navigate to homepage with section hash
+      navigate(`/#${sectionId}`);
+      
+      // After navigation, scroll to the section
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  };
+
   return (
     <>
       {/* Fixed Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
         <div className="flex items-center justify-between px-6 py-4">
           {/* Logo */}
-          <div className="flex flex-col">
+          <button 
+            onClick={() => navigate('/')}
+            className="flex flex-col hover:opacity-80 transition-opacity"
+          >
             <h1 className="font-josefin-sans text-xl font-normal uppercase text-[#413C36] leading-none">
               Causa
             </h1>
             <h2 className="font-josefin-sans text-xl font-light uppercase text-[#413C36] leading-none mt-[-2px]">
               Efeito
             </h2>
-          </div>
+          </button>
 
           {/* Menu Button */}
           <button
@@ -83,7 +127,7 @@ const MobileHeader = ({ isMenuOpen, onToggleMenu, onNavigateToSection }) => {
                 {menuItems.map((item, index) => (
                   <motion.button
                     key={item.id}
-                    onClick={() => onNavigateToSection(item.id)}
+                    onClick={() => handleNavigation(item.id)}
                     className="font-josefin-sans text-lg font-light uppercase text-white hover:text-white/80 transition-colors"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

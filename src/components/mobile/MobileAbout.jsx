@@ -47,7 +47,7 @@ const MobileAbout = () => {
           className="text-center mb-12"
         >
           <p className="font-kinta text-2xl md:text-3xl text-[#413C36] leading-relaxed max-w-md mx-auto">
-            O Efeito é o seu conforto
+            O Efeito e o seu conforto
           </p>
         </motion.div>
 
@@ -60,7 +60,7 @@ const MobileAbout = () => {
         >
           <p className="font-josefin-sans text-base text-[#413C36] leading-relaxed text-center font-light">
             Somos um estúdio de design de interiores baseado no Porto, dedicado a criar espaços que 
-            refletem a personalidade e necessidades dos nossos clientes. Cada projeto é uma jornada 
+            refletem a personalidade e necessidades dos nossos clientes. Cada projeto e uma jornada 
             única onde a sua causa se transforma no nosso design.
           </p>
         </motion.div>

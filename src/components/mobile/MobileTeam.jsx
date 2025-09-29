@@ -17,7 +17,7 @@ const MobileTeam = () => {
     {
       name: 'João Santos',
       role: 'Arquiteto & Designer',
-      description: 'Especialista em soluções espaciais inovadoras, João combina funcionalidade com estética única.',
+      description: 'Especialista em soluções espaciais inovadoras, João combina funcionalidade com estetica única.',
       image: '/footer-living.png'
     }
   ];
@@ -89,10 +89,10 @@ const MobileTeam = () => {
               A Nossa Filosofia
             </h3>
             <p className="font-kinta text-xl md:text-2xl text-[#413C36] leading-relaxed max-w-lg mx-auto mb-6">
-              "Cada espaço conta uma história. A nossa missão é ajudar a contar a sua."
+              "Cada espaço conta uma história. A nossa missão e ajudar a contar a sua."
             </p>
             <p className="font-josefin-sans text-base text-[#413C36] leading-relaxed font-light max-w-md mx-auto">
-              Acreditamos que o design de interiores vai além da estética. É sobre criar 
+              Acreditamos que o design de interiores vai alem da estetica. e sobre criar 
               ambientes que promovem bem-estar, funcionalidade e refletem a personalidade 
               única de cada cliente.
             </p>

@@ -14,7 +14,7 @@ const Slide2 = () => {
 
             <div>
                 <p className="font-kinta text-[46px] leading-tight text-[#413C36]">
-                    O Efeito <br></br> é o seu conforto
+                    O Efeito <br></br> e o seu conforto
                 </p>
             </div>
         </div>
