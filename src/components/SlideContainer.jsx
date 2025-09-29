@@ -55,7 +55,7 @@ const SlideContainer = ({ slideComponents, currentSlide, side, selectedProject, 
           exit="exit"
           transition={{
             type: "tween",
-            duration: 0.6,
+            duration: 0.4,
             ease: [0.25, 0.46, 0.45, 0.94]
           }}
           className="absolute inset-0"
