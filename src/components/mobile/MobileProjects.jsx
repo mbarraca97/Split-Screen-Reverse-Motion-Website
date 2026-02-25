@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
 import ImageWithFallback from './ImageWithFallback';
+import { buildProjectHref, getProjectsForProjectPages } from '../../data/projects';
 
 const MobileProjects = () => {
   const navigate = useNavigate();
@@ -10,48 +11,14 @@ const MobileProjects = () => {
     triggerOnce: true
   });
 
-  const projects = [
-    {
-      id: 1,
-      number: '01',
-      title: 'Villa Marina',
-      subtitle: 'Residential Design',
-      image: '/project1-1.png',
-      href: '/projects/villa-marina'
-    },
-    {
-      id: 2,
-      number: '02',
-      title: 'Urban Loft',
-      subtitle: 'Contemporary Living',
-      image: '/project2-1.png',
-      href: '/projects/urban-loft'
-    },
-    {
-      id: 3,
-      number: '03',
-      title: 'Classic Apartment',
-      subtitle: 'Timeless Elegance',
-      image: '/project3-1.png',
-      href: '/projects/classic-apartment'
-    },
-    {
-      id: 4,
-      number: '04',
-      title: 'Modern Office',
-      subtitle: 'Corporate Design',
-      image: '/project4-1.png',
-      href: '/projects/modern-office'
-    },
-    {
-      id: 5,
-      number: '05',
-      title: 'Luxury Villa',
-      subtitle: 'Premium Design',
-      image: '/project5-1.png',
-      href: '/projects/luxury-villa'
-    }
-  ];
+  const projects = getProjectsForProjectPages().map((p) => ({
+    id: p.id,
+    number: p.number,
+    title: p.title,
+    subtitle: p.subtitle,
+    image: p.mainImage,
+    href: buildProjectHref(p.id)
+  }));
 
   const handleProjectClick = (href) => {
     navigate(href);

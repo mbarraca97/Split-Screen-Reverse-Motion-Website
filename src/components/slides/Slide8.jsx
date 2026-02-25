@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
 import RightNavbar from '../RightNavbar';
+import { getProjectsForSlides } from '../../data/projects';
 
 const Slide8 = ({ selectedProject, onProjectClick, onMenuClick }) => {
-  const defaultProject = {
-    id: 1,
-    number: '01',
-    name: 'Villa Marina',
-    images: ['/project1-1.png', '/project1-2.png', '/project1-3.png'],
-    href: '/projects/villa-marina'
-  };
-
+  const defaultProject = getProjectsForSlides()[0];
   const project = selectedProject || defaultProject;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -38,7 +32,7 @@ const Slide8 = ({ selectedProject, onProjectClick, onMenuClick }) => {
       <div 
         className="flex-1 bg-cover bg-center bg-no-repeat cursor-pointer relative group"
         style={{
-          backgroundImage: `url(${project.images[currentImageIndex]})`
+          backgroundImage: `url("${project.images[currentImageIndex]}")`
         }}
         onClick={handleBackgroundClick}
       >
@@ -70,13 +64,13 @@ const Slide8 = ({ selectedProject, onProjectClick, onMenuClick }) => {
       {/* Bottom labels with 20px margin and space-between */}
       <div className="absolute bottom-2 left-8 right-8 flex justify-between text-white font-josefin-sans text-[16px] uppercase tracking-wide">
         <div className="mb-[0px]">
-          <span>PORTO</span>
+          <span>{(project.location || 'Portugal').toUpperCase()}</span>
         </div>
         <div className="mb-[20px]">
-          <span>APARTAMENTO</span>
+          <span>{(project.type || '—').toUpperCase()}</span>
         </div>
         <div className="mb-[20px]">
-          <span>RESIDENCIAL</span>
+          <span>{(project.category || '—').toUpperCase()}</span>
         </div>
       </div>
       </div>

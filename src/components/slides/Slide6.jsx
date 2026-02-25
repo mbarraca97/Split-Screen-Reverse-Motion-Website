@@ -20,13 +20,12 @@ const Slide6 = ({ onMenuClick }) => {
 
           {/* Secondary Title - 48px */}
           <h2 className="font-kinta text-[48px] leading-tight text-[#413C36] mb-6">
-            Let's Create Something Amazing
+            Vamos criar algo incrível?
           </h2>
 
           {/* Body Text - 16px */}
           <p className="font-josefin-sans text-[16px] leading-normal text-[#413C36] max-w-md">
-            Ready to transform your space? We'd love to hear about your project and discuss how we can bring your vision to life through thoughtful design.
-          </p>
+Pronto para transformar o seu espaço? Desde a concepção até a execução, estamos aqui para ajudar. Desde projetos 3d, projetos de arquitetura e projetos de decoração de interiores, até à fabricação e instalação de móveis personalizados.       </p>
         </div>
       </div>
     );

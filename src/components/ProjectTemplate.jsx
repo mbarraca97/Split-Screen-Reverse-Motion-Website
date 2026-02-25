@@ -1,45 +1,34 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import LeftNavbar from './LeftNavbar';
 import RightNavbar from './RightNavbar';
 import FullPageMenu from './FullPageMenu';
 import ProductFooter from './ProductFooter';
+import { getProjectPageById } from '../data/projects';
 
-const ProjectTemplate = ({ project }) => {
-  const navigate = useNavigate();
+const ProjectTemplate = ({ project: projectOverride }) => {
+  const { projectId } = useParams();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Default project data for demo
-  const defaultProject = {
-    id: 1,
-    title: 'Villa Marina',
-    mainImage: '/project1-1.png',
-    labels: {
-      left: { title: 'Location', value: 'Porto' },
-      right: [
-        { title: 'Type', value: 'Apartamento' },
-        { title: 'Category', value: 'Residencial' },
-        { title: 'Year', value: '2024' },
-        { title: 'Area', value: '150m²' }
-      ]
-    },
-    description: {
-      title: 'Projeto Vivenda C E25',
-      text: 'Uma abordagem contemporânea à arquitetura residencial, combinando funcionalidade e estetica moderna. Este projeto exemplifica a nossa filosofia de design centrada na qualidade de vida e sustentabilidade ambiental.'
-    },
-    gallery: ['/project1-1.png', '/project1-2.png', '/project1-3.png'],
-    details: {
-      label: 'Detalhes Tecnicos',
-      text: 'Construção com materiais de alta qualidade, sistema de climatização eficiente, iluminação LED integrada e acabamentos premium em toda a residência.'
-    }
-  };
+  const currentProject = projectOverride || getProjectPageById(projectId);
+  const FEATURED_GALLERY_LIMIT = 6;
+  const featuredGallery = useMemo(
+    () => currentProject.gallery.slice(0, FEATURED_GALLERY_LIMIT),
+    [currentProject]
+  );
+  const extraGallery = useMemo(
+    () => currentProject.gallery.slice(FEATURED_GALLERY_LIMIT),
+    [currentProject]
+  );
 
-  const currentProject = project || defaultProject;
+  useEffect(() => {
+    setCurrentImageIndex(0);
+  }, [currentProject.id]);
 
   const handleImageClick = () => {
     setCurrentImageIndex((prevIndex) => 
-      (prevIndex + 1) % currentProject.gallery.length
+      (prevIndex + 1) % featuredGallery.length
     );
   };
 
@@ -69,7 +58,7 @@ const ProjectTemplate = ({ project }) => {
           className="w-full bg-cover bg-center bg-no-repeat"
           style={{ 
             height: '500px',
-            backgroundImage: `url(${currentProject.mainImage})`
+            backgroundImage: `url("${currentProject.mainImage}")`
           }}
         />
       </div>
@@ -79,16 +68,21 @@ const ProjectTemplate = ({ project }) => {
         {/* Left aligned label */}
         <div className="text-left">
           <div style={{ color: '#A69E93', fontSize: '14px' }} className="font-josefin-sans uppercase">
-            {currentProject.labels.left.title}
+            Localização
           </div>
           <div style={{ color: '#413C36', fontSize: '14px' }} className="font-josefin-sans uppercase">
-            {currentProject.labels.left.value}
+            {currentProject.location || 'Portugal'}
           </div>
         </div>
 
         {/* Right aligned labels */}
         <div className="flex gap-8">
-          {currentProject.labels.right.map((label, index) => (
+          {[
+            { title: 'Tipo', value: currentProject.type || '—' },
+            { title: 'Categoria', value: currentProject.category || '—' },
+            { title: 'Ano', value: currentProject.year || '—' },
+            { title: 'Área', value: currentProject.area || '—' }
+          ].map((label, index) => (
             <div key={index} className="text-right">
               <div style={{ color: '#A69E93', fontSize: '14px' }} className="font-josefin-sans uppercase">
                 {label.title}
@@ -116,15 +110,20 @@ const ProjectTemplate = ({ project }) => {
 
       {/* Image slider */}
       <div className="flex justify-center mt-8">
-        <div 
-          className="bg-cover bg-center bg-no-repeat cursor-pointer"
-          style={{ 
-            height: '400px', 
-            width: '650px',
-            backgroundImage: `url(${currentProject.gallery[currentImageIndex]})`
-          }}
-          onClick={handleImageClick}
-        />
+        <div className="flex flex-col items-center">
+          <div 
+            className="bg-cover bg-center bg-no-repeat cursor-pointer"
+            style={{ 
+              height: '400px', 
+              width: '650px',
+              backgroundImage: `url("${featuredGallery[currentImageIndex]}")`
+            }}
+            onClick={handleImageClick}
+          />
+          <div className="mt-3 font-josefin-sans text-[14px] uppercase tracking-wide" style={{ color: '#413C36' }}>
+            {currentImageIndex + 1} / {featuredGallery.length}
+          </div>
+        </div>
       </div>
 
       {/* Black dividing line */}
@@ -133,10 +132,10 @@ const ProjectTemplate = ({ project }) => {
       {/* Details section */}
       <div className="px-5 mt-16 pb-[200px]">
         <div className="font-josefin-sans font-bold text-sm mb-4 text-[16px] uppercase" style={{ color: '#413C36' }}>
-          {currentProject.details.label}
+          {currentProject.details?.label || 'Detalhes técnicos'}
         </div>
         <div className="font-josefin-sans text-sm leading-relaxed text-[32px] w-[800px] leading-tight" style={{ color: '#413C36' }}>
-          {currentProject.details.text}
+          {currentProject.details?.text || ''}
         </div>
       </div>
 
@@ -148,7 +147,7 @@ const ProjectTemplate = ({ project }) => {
         <div className="w-1/2 pr-8">
           {/* Text */}
           <div className="font-josefin-sans text-[16px] w-[500px] mb-8" style={{ color: '#413C36' }}>
-            Este projeto representa uma evolução natural dos nossos princípios de design, integrando perfeitamente a funcionalidade contemporânea com a estetica atemporal. Cada elemento foi cuidadosamente considerado para criar um ambiente harmonioso.
+            {currentProject.fullDescription || currentProject.description?.text || ''}
           </div>
           
           {/* Two pairs of title/label stacked vertically */}
@@ -159,7 +158,7 @@ const ProjectTemplate = ({ project }) => {
                 CLIENTE
               </div>
               <div className="font-josefin-sans text-[18px]" style={{ color: '#413C36' }}>
-                Família Silva
+                {currentProject.client || 'Privado'}
               </div>
             </div>
             
@@ -169,7 +168,7 @@ const ProjectTemplate = ({ project }) => {
                 ARQUITETO
               </div>
               <div className="font-josefin-sans text-[18px]" style={{ color: '#413C36' }}>
-                João Santos
+                {currentProject.architect || '—'}
               </div>
             </div>
           </div>
@@ -183,7 +182,7 @@ const ProjectTemplate = ({ project }) => {
             style={{ 
               width: '300px',
               height: '400px',
-              backgroundImage: `url(/project1-2.png)`
+              backgroundImage: `url("${featuredGallery[1] || currentProject.mainImage}")`
             }}
           />
           
@@ -193,11 +192,30 @@ const ProjectTemplate = ({ project }) => {
             style={{ 
               width: '300px',
               height: '400px',
-              backgroundImage: `url(/project1-3.png)`
+              backgroundImage: `url("${featuredGallery[2] || currentProject.mainImage}")`
             }}
           />
         </div>
       </div>
+
+      {/* Extra Gallery (remaining photos) */}
+      {extraGallery.length > 0 && (
+        <div className="px-5 mb-16">
+          <div className="mx-5 h-px bg-black mb-8"></div>
+          <div className="font-josefin-sans font-bold text-sm mb-4 text-[16px] uppercase" style={{ color: '#413C36' }}>
+            Galeria ({extraGallery.length})
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {extraGallery.map((src, index) => (
+              <div
+                key={`${src}-${index}`}
+                className="bg-cover bg-center bg-no-repeat"
+                style={{ height: '220px', backgroundImage: `url("${src}")` }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
            {/* Newsletter section */}
            <div>

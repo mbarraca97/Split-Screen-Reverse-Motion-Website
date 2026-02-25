@@ -4,6 +4,7 @@ import { slides } from '../components/slides';
 import FullPageMenu from '../components/FullPageMenu';
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { getProjectsForSlides } from '../data/projects';
 
 const Homepage = () => {
   const { currentSlide, setCurrentSlide } = useScrollSnap(Math.ceil(slides.length / 2));
@@ -24,13 +25,7 @@ const Homepage = () => {
   }, [searchParams, setCurrentSlide, setSearchParams]);
   
   // Default project (first project)
-  const defaultProject = { 
-    id: 1, 
-    number: '01', 
-    name: 'Villa Marina', 
-    images: ['/project1-1.png', '/project1-2.png', '/project1-3.png'], 
-    href: '/projects/villa-marina' 
-  };
+  const defaultProject = getProjectsForSlides()[0];
   
   const [selectedProject, setSelectedProject] = useState(defaultProject);
   const [isMenuOpen, setIsMenuOpen] = useState(false);

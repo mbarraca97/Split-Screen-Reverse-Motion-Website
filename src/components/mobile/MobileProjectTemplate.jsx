@@ -6,6 +6,7 @@ import MobileHeader from './MobileHeader';
 import MobileFooter from './MobileFooter';
 import ImageWithFallback from './ImageWithFallback';
 import useScrollToTop from '../../hooks/useScrollToTop';
+import { getProjectPageById, getRelatedProjects } from '../../data/projects';
 
 const MobileProjectTemplate = () => {
   const navigate = useNavigate();
@@ -43,135 +44,15 @@ const MobileProjectTemplate = () => {
     };
   }, []);
 
-  // Project data based on projectId
-  const getProjectData = (id) => {
-    const projects = {
-      'villa-marina': {
-        id: 1,
-        title: 'Villa Marina',
-        subtitle: 'Residential Design',
-        location: 'Porto',
-        type: 'Apartamento',
-        category: 'Residencial',
-        year: '2024',
-        area: '150m²',
-        client: 'Família Silva',
-        architect: 'João Santos',
-        mainImage: '/project1-1.png',
-        gallery: ['/project1-1.png', '/project1-2.png', '/project1-3.png'],
-        description: {
-          title: 'Projeto Villa Marina',
-          text: 'Uma abordagem contemporânea à arquitetura residencial, combinando funcionalidade e estetica moderna. Este projeto exemplifica a nossa filosofia de design centrada na qualidade de vida e sustentabilidade ambiental.'
-        },
-        details: 'Construção com materiais de alta qualidade, sistema de climatização eficiente, iluminação LED integrada e acabamentos premium em toda a residência.',
-        fullDescription: 'Este projeto representa uma evolução natural dos nossos princípios de design, integrando perfeitamente a funcionalidade contemporânea com a estetica atemporal. Cada elemento foi cuidadosamente considerado para criar um ambiente harmonioso que reflete o estilo de vida dos proprietários.'
-      },
-      'urban-loft': {
-        id: 2,
-        title: 'Urban Loft',
-        subtitle: 'Contemporary Living',
-        location: 'Lisboa',
-        type: 'Loft',
-        category: 'Residencial',
-        year: '2024',
-        area: '120m²',
-        client: 'João & Maria',
-        architect: 'Ana Silva',
-        mainImage: '/project2-1.png',
-        gallery: ['/project2-1.png', '/project2-2.png', '/project2-3.png'],
-        description: {
-          title: 'Urban Loft Project',
-          text: 'Um espaço urbano transformado num lar moderno e funcional, onde cada metro quadrado foi optimizado para criar uma experiência de vida única no coração da cidade.'
-        },
-        details: 'Design open-space com zonas bem definidas, materiais industriais refinados, sistemas de armazenamento inteligentes e iluminação ambiente personalizada.',
-        fullDescription: 'A transformação deste loft urbano demonstra como e possível criar um ambiente acolhedor e sofisticado num espaço industrial. A nossa abordagem focou-se na maximização da funcionalidade sem comprometer o conforto.'
-      },
-      'classic-apartment': {
-        id: 3,
-        title: 'Classic Apartment',
-        subtitle: 'Timeless Elegance',
-        location: 'Porto',
-        type: 'Apartamento',
-        category: 'Residencial',
-        year: '2023',
-        area: '180m²',
-        client: 'Família Costa',
-        architect: 'João Santos',
-        mainImage: '/project3-1.png',
-        gallery: ['/project3-1.png'],
-        description: {
-          title: 'Classic Apartment',
-          text: 'Uma reinterpretação elegante do design clássico, combinando elementos tradicionais com toques contemporâneos para criar um ambiente atemporal e sofisticado.'
-        },
-        details: 'Restauro cuidadoso de elementos originais, mobiliário sob medida, tecidos nobres e iluminação cuidadosamente planeada para realçar a arquitetura existente.',
-        fullDescription: 'Este projeto celebra a beleza da arquitetura clássica enquanto introduz elementos modernos que melhoram a funcionalidade e o conforto do espaço.'
-      },
-      'modern-office': {
-        id: 4,
-        title: 'Modern Office',
-        subtitle: 'Corporate Design',
-        location: 'Porto',
-        type: 'Escritório',
-        category: 'Comercial',
-        year: '2024',
-        area: '200m²',
-        client: 'Tech Solutions Ltd.',
-        architect: 'Ana Silva',
-        mainImage: '/project4-1.png',
-        gallery: ['/project4-1.png', '/project4-2.png'],
-        description: {
-          title: 'Modern Office Space',
-          text: 'Um ambiente de trabalho moderno que promove a criatividade e produtividade, integrando espaços colaborativos com áreas de concentração individual.'
-        },
-        details: 'Mobiliário ergonómico, sistemas de iluminação inteligente, zonas de reunião flexíveis e tecnologia integrada para um ambiente de trabalho do futuro.',
-        fullDescription: 'Este projeto demonstra como criar um ambiente de trabalho que inspira e motiva, combinando funcionalidade com design contemporâneo para maximizar o bem-estar dos colaboradores.'
-      },
-      'luxury-villa': {
-        id: 5,
-        title: 'Luxury Villa',
-        subtitle: 'Premium Design',
-        location: 'Cascais',
-        type: 'Moradia',
-        category: 'Residencial',
-        year: '2023',
-        area: '400m²',
-        client: 'Família Premium',
-        architect: 'João Santos',
-        mainImage: '/project5-1.png',
-        gallery: ['/project5-1.png', '/project5-2.png'],
-        description: {
-          title: 'Luxury Villa Design',
-          text: 'Uma moradia de luxo que combina elegância clássica com conforto moderno, criando um refúgio sofisticado junto ao mar.'
-        },
-        details: 'Materiais premium, acabamentos de luxo, sistemas domóticos integrados e design paisagístico harmonioso com vista para o oceano.',
-        fullDescription: 'Esta villa representa o ápice do design residencial, onde cada detalhe foi cuidadosamente considerado para criar uma experiência de vida incomparável.'
-      },
-      'contemporary-space': {
-        id: 6,
-        title: 'Contemporary Space',
-        subtitle: 'Modern Living',
-        location: 'Aveiro',
-        type: 'Apartamento',
-        category: 'Residencial',
-        year: '2024',
-        area: '90m²',
-        client: 'Casal Jovem',
-        architect: 'Ana Silva',
-        mainImage: '/project5-2.png',
-        gallery: ['/project5-2.png'],
-        description: {
-          title: 'Contemporary Living Space',
-          text: 'Um espaço contemporâneo que maximiza a luz natural e cria uma sensação de amplitude, perfeito para um estilo de vida moderno.'
-        },
-        details: 'Design minimalista, paleta de cores neutras, soluções de armazenamento inteligentes e integração perfeita entre interior e exterior.',
-        fullDescription: 'Este projeto mostra como criar um ambiente moderno e funcional mesmo em espaços compactos, priorizando a qualidade de vida e o bem-estar.'
-      }
-    };
+  const project = getProjectPageById(projectId);
+  const FEATURED_GALLERY_LIMIT = 8;
+  const featuredGallery = project.gallery.slice(0, FEATURED_GALLERY_LIMIT);
+  const extraGallery = project.gallery.slice(FEATURED_GALLERY_LIMIT);
 
-    return projects[id] || projects['villa-marina'];
-  };
-
-  const project = getProjectData(projectId);
+  // Reset image index when project changes
+  useEffect(() => {
+    setCurrentImageIndex(0);
+  }, [projectId]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -192,7 +73,7 @@ const MobileProjectTemplate = () => {
 
   const handleImageClick = () => {
     setCurrentImageIndex((prevIndex) => 
-      (prevIndex + 1) % project.gallery.length
+      (prevIndex + 1) % featuredGallery.length
     );
   };
 
@@ -319,10 +200,10 @@ const MobileProjectTemplate = () => {
               viewport={{ once: true }}
             >
               <h3 className="font-josefin-sans text-lg uppercase text-[#413C36] mb-4 font-normal tracking-wide">
-                Detalhes Tecnicos
+                {project.details?.label || 'Detalhes técnicos'}
               </h3>
               <p className="font-josefin-sans text-base text-[#413C36] leading-relaxed font-light">
-                {project.details}
+                {project.details?.text || ''}
               </p>
             </motion.div>
           </div>
@@ -353,7 +234,7 @@ const MobileProjectTemplate = () => {
               className="mb-6"
             >
               <ImageWithFallback
-                src={project.gallery[currentImageIndex]} 
+                src={featuredGallery[currentImageIndex]} 
                 alt={`${project.title} ${currentImageIndex + 1}`}
                 className="w-full h-64 md:h-80 object-cover shadow-lg cursor-pointer"
                 fallbackClassName="w-full h-64 md:h-80 bg-[#F2EDE7] flex items-center justify-center shadow-lg cursor-pointer"
@@ -368,7 +249,7 @@ const MobileProjectTemplate = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="flex justify-center space-x-2 mb-4"
             >
-              {project.gallery.map((_, index) => (
+              {featuredGallery.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentImageIndex(index)}
@@ -386,7 +267,7 @@ const MobileProjectTemplate = () => {
               className="text-center"
             >
               <p className="font-josefin-sans text-sm text-[#413C36] font-light">
-                {currentImageIndex + 1} / {project.gallery.length}
+                {currentImageIndex + 1} / {featuredGallery.length}
               </p>
             </motion.div>
           </div>
@@ -432,6 +313,48 @@ const MobileProjectTemplate = () => {
             </motion.div>
           </div>
         </section>
+
+        {/* Extra Gallery (remaining photos) */}
+        {extraGallery.length > 0 && (
+          <section className="py-16 bg-[#F2EDE7]">
+            <div className="px-6">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="text-center mb-8"
+              >
+                <h3 className="font-josefin-sans text-xl uppercase text-[#413C36] mb-2 font-normal tracking-wide">
+                  Mais fotografias
+                </h3>
+                <p className="font-josefin-sans text-sm text-[#413C36] font-light">
+                  Galeria adicional
+                </p>
+              </motion.div>
+
+              <div className="grid grid-cols-2 gap-3">
+                {extraGallery.map((src, index) => (
+                  <motion.div
+                    key={`${src}-${index}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: Math.min(index, 6) * 0.05 }}
+                    viewport={{ once: true }}
+                    className="overflow-hidden shadow-md"
+                  >
+                    <ImageWithFallback
+                      src={src}
+                      alt={`${project.title} extra ${index + 1}`}
+                      className="w-full h-40 object-cover"
+                      fallbackClassName="w-full h-40 bg-white flex items-center justify-center"
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Newsletter Section */}
         <section className="py-16 bg-[#A69E93]">
@@ -509,13 +432,7 @@ const MobileProjectTemplate = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                { title: 'Urban Loft', image: '/project2-1.png', href: '/projects/urban-loft' },
-                { title: 'Classic Apartment', image: '/project3-1.png', href: '/projects/classic-apartment' },
-                { title: 'Modern Office', image: '/project4-1.png', href: '/projects/modern-office' },
-                { title: 'Luxury Villa', image: '/project5-1.png', href: '/projects/luxury-villa' },
-                { title: 'Contemporary Space', image: '/project5-2.png', href: '/projects/contemporary-space' }
-              ].filter(p => p.href !== `/projects/${projectId}`).slice(0, 2).map((relatedProject, index) => (
+              {getRelatedProjects(projectId, 2).map((relatedProject, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 40 }}

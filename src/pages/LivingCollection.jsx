@@ -108,7 +108,7 @@ const LivingCollection = () => {
                       : 'w-[100px] h-[130px]'
                   }`}
                   style={{
-                    backgroundImage: `url(${product.image})`
+                    backgroundImage: `url("${product.image}")`
                   }}
                   onClick={() => handleProductClick(index)}
                 />
